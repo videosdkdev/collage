@@ -1,0 +1,12 @@
+.collage {
+    background-color: aliceblue;
+    width: 100vw;
+    height: calc(100vh - 109px);
+    position: relative;
+}
+
+img {
+    position: absolute;
+    width: 400px;
+    height: auto;
+}
