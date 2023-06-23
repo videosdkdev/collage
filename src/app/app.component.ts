@@ -78,16 +78,15 @@ export class AppComponent {
   }
 
   wordSpoken = (payload: any) => {
-    console.log(payload)
+    if(payload.done) {
+      // complete sentance takes a bit longer
+      // this.getPhoto(payload.text)
+    } else {
+      console.log(payload)
       console.log(`${payload.displayName} said: ${payload.text}`);
-
-      if(payload.done) {
-        // complete sentance takes a bit longer
-        // this.getPhoto(payload.text)
-      } else {
-        // this will be faster, maybe delimit based on ,
-        this.getPhoto(payload.text)
-      }
+      // this will be faster, maybe delimit based on ,
+      this.getPhoto(payload.text)
+    }
   }
 
   disableTranscription() {

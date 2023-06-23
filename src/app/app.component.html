@@ -1,6 +1,6 @@
 <div class="controls">
   <h1>AI Photo Collage Creator</h1>
-  <p>Powered by Zoom Video SDK's AI Live Transcription feature.</p>
+  <p>Powered by <a href="https://developers.zoom.us/docs/video-sdk/" target="_blank">Zoom Video SDK</a>'s AI <a href="https://developers.zoom.us/docs/video-sdk/web/transcription-translation/" target="_blank">Live Transcription feature</a>.</p>
 
   <button (click)="getVideoSDKJWT()" *ngIf="!stream">Create Collage</button>
   <button (click)="enableTranscription()" *ngIf="stream && !client.getCurrentUserInfo().audio">Enable Transcription</button>
@@ -12,5 +12,9 @@
 
 
 <div class="collage" id="collage">
-  <img src="{{ photo.urls.small }}" alt="{{ photo.description }}" *ngFor="let photo of collage" [ngStyle]="{'top': + photo.top + 'px', 'left': + photo.left + 'px'}">
+  <div *ngFor="let photo of collage" [ngStyle]="{'top': + photo.top + 'px', 'left': + photo.left + 'px'}" class="photos">
+    <p>Photo by <a href="{{ photo.user.links.html }}" target="_blank">{{ photo.user.first_name }} {{ photo.user.last_name }}</a> on <a href="https://unsplash.com" target="_blank">Unsplash</a></p>
+    <img src="{{ photo.urls.small }}" alt="{{ photo.description }}">
+  </div>
+  
 </div>

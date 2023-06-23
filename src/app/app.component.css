@@ -5,8 +5,19 @@
     position: relative;
 }
 
-img {
+.photos {
     position: absolute;
-    width: 400px;
-    height: auto;
+}
+
+.collage p {
+    margin: 0;
+    position: absolute;
+    left: 5px;
+    bottom: 5px;
+    color: #ffffff;
+}
+
+.collage a {
+    color: #ffffff;
+    text-decoration: underline;
 }
