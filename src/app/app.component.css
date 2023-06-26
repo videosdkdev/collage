@@ -1,7 +1,26 @@
+img {
+    border-radius: 20px;
+}
+
+.background-image {
+    width: 80%;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    position: absolute;
+    left: 0;
+    right: 0;
+    max-width: 1200px;
+}
+
+h1, h5 {
+    margin: 0;
+}
+
 .collage {
     background-color: aliceblue;
     width: 100vw;
-    height: calc(100vh - 109px);
+    height: calc(100vh - 124px);
     position: relative;
 }
 
@@ -12,12 +31,79 @@
 .collage p {
     margin: 0;
     position: absolute;
-    left: 5px;
-    bottom: 5px;
     color: #ffffff;
+    left: 15px;
+    bottom: 15px;
+    font-size: 10px;
 }
 
 .collage a {
     color: #ffffff;
     text-decoration: underline;
+}
+
+.header a {
+    color: #3185FC;
+}
+
+.header {
+    text-align: center;
+    position: relative;
+    padding: 20px;
+}
+
+.controls {
+    position: absolute;
+    display: flex;
+    width: 870px;
+    bottom: 20px;
+    z-index: 10;
+    /* background: #ffffff; */
+    align-items: baseline;
+    justify-content: center;
+    left: 0;
+    right: 0;
+    margin: auto;
+    background: #ffffff;
+    border-radius: 20px;
+    padding-top: 25px;
+}
+
+.controls mat-form-field, .controls button {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+button.create-collage {
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    position: absolute;
+    left: 0;
+    right: 0;
+    max-width: 400px;
+    width: 80%;
+    z-index: 10;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+.collage h1 {
+    font-style: italic;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    position: absolute;
+    left: 0;
+    right: 0;
+    text-align: center;
+    height: 51px;
+}
+
+mat-spinner {
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    position: absolute;
+    left: 0;
+    right: 0;
 }

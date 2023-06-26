@@ -1,20 +1,43 @@
-<div class="controls">
-  <h1>AI Photo Collage Creator</h1>
+<div class="header">
+  <h1>AI Photo Collage Generator</h1>
   <p>Powered by <a href="https://developers.zoom.us/docs/video-sdk/" target="_blank">Zoom Video SDK</a>'s AI <a href="https://developers.zoom.us/docs/video-sdk/web/transcription-translation/" target="_blank">Live Transcription feature</a>.</p>
+  <h5>- Created by <a href="https://www.linkedin.com/in/tommygaessler/" target="_blank">Tommy Gaessler</a> and <a href="https://www.linkedin.com/in/ticorrianlheard/" target="_blank">Ticorrian Heard</a> -</h5>
+</div>
 
-  <button (click)="getVideoSDKJWT()" *ngIf="!stream">Create Collage</button>
-  <button (click)="enableTranscription()" *ngIf="stream && !client.getCurrentUserInfo().audio">Enable Transcription</button>
-  <button *ngIf="stream && client.getCurrentUserInfo().audio" (click)="disableTranscription()">Disable Transcription</button>
-  <button (click)="save()" *ngIf="stream">Save Collage</button>
+<div class="controls" *ngIf="stream">
+  <mat-form-field appearance="outline">
+    <mat-label>Language</mat-label>
+    <mat-select [disabled]="!!client.getCurrentUserInfo().audio" value="en" (selectionChange)="onLanguageChange($event)">
+      <mat-option [value]="language.code" *ngFor="let language of languages">
+        {{ language.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>AI Mode</mat-label>
+    <mat-select [disabled]="!!client.getCurrentUserInfo().audio" value="fast" (selectionChange)="onSpeechModeChange($event)">
+      <mat-option value="fast">Fast</mat-option>
+      <mat-option value="accurate">Accurate</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" (click)="enableTranscription()" *ngIf="!client.getCurrentUserInfo().audio">Enable Transcription</button>
+  <button mat-raised-button color="primary" *ngIf="stream && client.getCurrentUserInfo().audio" (click)="disableTranscription()">Disable Transcription</button>
+
+  <!-- <button mat-raised-button color="primary" (click)="save()" *ngIf="stream">Save Collage</button> -->
   <!-- <button>Share?</button> -->
-  <button *ngIf="stream" (click)="leaveSession()">Close Collage</button>
+  <button mat-raised-button color="warn" (click)="leaveSession()">Reset Collage</button>
 </div>
 
 
 <div class="collage" id="collage">
+  <h1 *ngIf="stream && !loading && !collage.length">~ Enable Transcription, and speak to create your collage ~</h1>
+  <button mat-raised-button color="accent" (click)="getVideoSDKJWT()" *ngIf="!stream && !loading" class="create-collage">Create Collage</button>
+  <img src="assets/background-image.png" alt="" class="background-image" *ngIf="!stream && !loading">
+  <mat-spinner *ngIf="loading"></mat-spinner>
   <div *ngFor="let photo of collage" [ngStyle]="{'top': + photo.top + 'px', 'left': + photo.left + 'px'}" class="photos">
-    <p>Photo by <a href="{{ photo.user.links.html }}" target="_blank">{{ photo.user.first_name }} {{ photo.user.last_name }}</a> on <a href="https://unsplash.com" target="_blank">Unsplash</a></p>
+    <p>Photo by <a href="{{ photo.user.links.html }}?utm_source=zoom_ai_hackathon&utm_medium=referral" target="_blank">{{ photo.user.first_name }} {{ photo.user.last_name }}</a> on <a href="https://unsplash.com?utm_source=zoom_ai_hackathon&utm_medium=referral" target="_blank">Unsplash</a></p>
     <img src="{{ photo.urls.small }}" alt="{{ photo.description }}">
   </div>
-  
 </div>
