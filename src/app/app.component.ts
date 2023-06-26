@@ -43,10 +43,8 @@ export class AppComponent {
       role: this.role,
     })).toPromise().then((data: any) => {
       if(data.signature) {
-        console.log(data.signature)
         this.joinSession(data.signature)
       } else {
-        console.log(data)
         this.loading = false
       }
     }).catch((error) => {
@@ -81,16 +79,11 @@ export class AppComponent {
     this.liveTranscriptionTranslation = this.client.getLiveTranscriptionClient()
 
     this.liveTranscriptionTranslation.startLiveTranscription().then((data: any) => {
-      console.log(data)
-
-      console.log(this.speakingLanguage)
 
       this.liveTranscriptionTranslation.setSpeakingLanguage(this.speakingLanguage).then((data: any) => {
-        console.log(data)
 
         if(this.speakingLanguage !== 'en') {
           this.liveTranscriptionTranslation.setTranslationLanguage('en').then((data: any) => {
-            console.log(data)
 
             this.client.on(`caption-message`, this.wordSpoken)
           }).catch((error: any) => {
@@ -112,15 +105,15 @@ export class AppComponent {
   wordSpoken = (payload: any) => {
 
     // could do a loading on the image until done is passed
-    console.log('loader');
+    // console.log('loader');
     
     if (this.speechMode === 'fast' && !payload.done) {
-      console.log(payload)
-      console.log(`${payload.displayName} said: ${payload.text}`);
+      // console.log(payload)
+      // console.log(`${payload.displayName} said: ${payload.text}`);
       this.getPhoto(payload.text)
     } else if(this.speechMode === 'accurate' && payload.done) {
-      console.log(payload)
-      console.log(`${payload.displayName} said: ${payload.text}`);
+      // console.log(payload)
+      // console.log(`${payload.displayName} said: ${payload.text}`);
       this.getPhoto(payload.text)
     }
   }
@@ -131,20 +124,16 @@ export class AppComponent {
   }
 
   onLanguageChange(language: any) {
-    console.log(language.value)
-
     this.speakingLanguage = language.value
   }
 
   onSpeechModeChange(mode: any) {
-    console.log(mode.value)
-
     this.speechMode = mode.value
   }
 
   getPhoto(word: any) {
     this.httpClient.get(this.unsplashEndpoint + '&query=' + word).toPromise().then((photo: any) => {
-      console.log(photo)
+      // console.log(photo)
 
       var collageDiv = document.getElementById('collage')
 
@@ -158,14 +147,14 @@ export class AppComponent {
       photo.left = Math.floor( Math.random() * (widthMax || 0) )
 
       this.collage.push(photo)
-      console.log('stop loader');
+      // console.log('stop loader');
     }).catch((error) => {
       console.log(error)
     })
   }
 
   save() {
-    console.log('save me')
+    // console.log('save me')
   }
 
   leaveSession() {
