@@ -30,12 +30,17 @@
   <button mat-raised-button color="warn" (click)="leaveSession()">Reset Collage</button>
 </div>
 
+<!-- show words? -->
+<!-- working.... listening... -->
 
 <div class="collage" id="collage">
-  <h1 *ngIf="stream && !loading && !collage.length">~ Enable Transcription, and speak to create your collage ~</h1>
+  <div *ngIf="stream && !loading && !collage.length && !loadingStack.length" class="instructions">
+    <h1>~ Enable Transcription and speak to create your collage ~</h1>
+    <h4>Hint: Choose the AI Mode "Fast" for single words and "Accurate" for sentances.</h4>
+  </div>
   <button mat-raised-button color="accent" (click)="getVideoSDKJWT()" *ngIf="!stream && !loading" class="create-collage">Create Collage</button>
   <img src="assets/background-image.png" alt="" class="background-image" *ngIf="!stream && !loading">
-  <mat-spinner *ngIf="loading"></mat-spinner>
+  <mat-spinner *ngIf="loading || loadingStack.length"></mat-spinner>
   <div *ngFor="let photo of collage" [ngStyle]="{'top': + photo.top + 'px', 'left': + photo.left + 'px'}" class="photos">
     <p>Photo by <a href="{{ photo.user.links.html }}?utm_source=zoom_ai_hackathon&utm_medium=referral" target="_blank">{{ photo.user.first_name }} {{ photo.user.last_name }}</a> on <a href="https://unsplash.com?utm_source=zoom_ai_hackathon&utm_medium=referral" target="_blank">Unsplash</a></p>
     <img src="{{ photo.urls.small }}" alt="{{ photo.description }}">

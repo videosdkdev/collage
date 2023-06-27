@@ -6,3 +6,8 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.cdk-overlay-container mat-snack-bar-container {
+    bottom: 120px;
+    position: absolute;
+}

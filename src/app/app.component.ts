@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 import ZoomVideo, { LiveTranscriptionLanguage } from '@zoom/videosdk'
 
@@ -27,8 +28,9 @@ export class AppComponent {
   languages = Object.keys(LiveTranscriptionLanguage).map(key => ({name: key, code: (LiveTranscriptionLanguage as any)[key]})).sort((a, b) => a.name.localeCompare(b.name))
   loading: boolean = false
   collage: any = []
+  loadingStack: any = []
 
-  constructor(public httpClient: HttpClient) {
+  constructor(public httpClient: HttpClient, private matSnackBar: MatSnackBar) {
 
   }
 
@@ -106,21 +108,41 @@ export class AppComponent {
 
     // could do a loading on the image until done is passed
     // console.log('loader');
-    
+    // console.log(payload)
+    // on fast mode, limit based on comma or period?
+    // need to make a loader stack
+    // stop listening?
+    this.loadingStack.push('a')
+    this.matSnackBar.open(payload.text)
     if (this.speechMode === 'fast' && !payload.done) {
       // console.log(payload)
       // console.log(`${payload.displayName} said: ${payload.text}`);
-      this.getPhoto(payload.text)
+      // this.loadingStack.push('a')
+      // take out the last word
+      // console.log('last word only', payload.text.split(" ").pop())
+      this.getPhoto(payload.text.split(" ").pop())
+      
+      // this.getPhoto(payload.text)
+      // this.matSnackBar.open(payload.text)
     } else if(this.speechMode === 'accurate' && payload.done) {
       // console.log(payload)
       // console.log(`${payload.displayName} said: ${payload.text}`);
+      // this.loadingStack.push('a')
+      this.matSnackBar.open('Sentance confirmed: ' + payload.text)
       this.getPhoto(payload.text)
+      // this.loadingStack = []
+
+      // to make it look more accurate, always show caption?
+    } else if(payload.done) {
+      this.loadingStack = []
     }
+    console.log(this.loadingStack)
   }
 
   disableTranscription() {
     this.stream.stopAudio()
     this.client.off(`caption-message`, this.wordSpoken)
+    this.matSnackBar.dismiss()
   }
 
   onLanguageChange(language: any) {
@@ -147,9 +169,14 @@ export class AppComponent {
       photo.left = Math.floor( Math.random() * (widthMax || 0) )
 
       this.collage.push(photo)
+
+      // this.loadingStack.pop()
+      this.loadingStack = []
+      console.log(this.loadingStack)
       // console.log('stop loader');
     }).catch((error) => {
       console.log(error)
+      this.loadingStack.pop()
     })
   }
 
@@ -158,10 +185,11 @@ export class AppComponent {
   }
 
   leaveSession() {
-    this.stream.stopAudio()
+    // this.stream.stopAudio() this happens auto magically I think
     this.client.off(`caption-message`, this.wordSpoken)
     this.client.leave(true)
     this.stream = null
     this.collage = []
+    this.matSnackBar.dismiss()
   }  
 }

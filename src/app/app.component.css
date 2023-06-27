@@ -20,7 +20,7 @@ h1, h5 {
 .collage {
     background-color: aliceblue;
     width: 100vw;
-    height: calc(100vh - 124px);
+    height: calc(100vh - 129px);
     position: relative;
 }
 
@@ -50,6 +50,10 @@ h1, h5 {
     text-align: center;
     position: relative;
     padding: 20px;
+}
+
+.header p {
+    margin-top: 5px;
 }
 
 .controls {
@@ -87,7 +91,7 @@ button.create-collage {
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
 
-.collage h1 {
+.collage .instructions {
     font-style: italic;
     top: 0;
     bottom: 0;
@@ -99,6 +103,10 @@ button.create-collage {
     height: 51px;
 }
 
+.collage .instructions h1 {
+    margin-bottom: 15px;
+}
+
 mat-spinner {
     top: 0;
     bottom: 0;
@@ -106,4 +114,5 @@ mat-spinner {
     position: absolute;
     left: 0;
     right: 0;
+    z-index: 100;
 }
