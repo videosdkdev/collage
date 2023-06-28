@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 import ZoomVideo, { LiveTranscriptionLanguage } from '@zoom/videosdk'
+import html2canvas from 'html2canvas'
+import { saveAs } from 'file-saver'
 
 @Component({
   selector: 'app-root',
@@ -181,7 +183,17 @@ export class AppComponent {
   }
 
   save() {
-    // console.log('save me')
+    this.matSnackBar.dismiss()
+    html2canvas(document.getElementById("collage")!, {
+      useCORS: true
+    }).then((canvas) => {
+      canvas.toBlob((blob: any) => {
+        saveAs(blob, 'my-ai-photo-collage.jpg');
+        this.matSnackBar.open('Collage succesfully downloaded!', '', {
+          duration: 5000,
+        })
+      });
+    })
   }
 
   leaveSession() {

@@ -31,7 +31,9 @@
             ],
             "scripts": [],
             "allowedCommonJsDependencies": [
-              "@zoom/videosdk"
+              "@zoom/videosdk",
+              "file-saver",
+              "html2canvas"
             ]
           },
           "configurations": {
