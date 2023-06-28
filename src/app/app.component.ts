@@ -29,8 +29,10 @@ export class AppComponent {
   speakingLanguage = 'en'
   languages = Object.keys(LiveTranscriptionLanguage).map(key => ({name: key, code: (LiveTranscriptionLanguage as any)[key]})).sort((a, b) => a.name.localeCompare(b.name))
   loading: boolean = false
+  photoScale = 0.75;
   collage: any = []
   loadingStack: any = []
+  rectList: any = []
 
   constructor(public httpClient: HttpClient, private matSnackBar: MatSnackBar) {
 
@@ -108,6 +110,12 @@ export class AppComponent {
 
   wordSpoken = (payload: any) => {
 
+    if (this.collage.length >= 13) {
+      console.log("Photo limit reached")
+      this.disableTranscription();
+      return;
+    }
+
     // could do a loading on the image until done is passed
     // console.log('loader');
     // console.log(payload)
@@ -138,7 +146,7 @@ export class AppComponent {
     } else if(payload.done) {
       this.loadingStack = []
     }
-    console.log(this.loadingStack)
+    //console.log(this.loadingStack)
   }
 
   disableTranscription() {
@@ -155,6 +163,41 @@ export class AppComponent {
     this.speechMode = mode.value
   }
 
+  resizeImg(img: any) {
+    //for some reason, img.target.height auto scales when the img.target.width is scaled below
+    img.target.width = img.target.width * this.photoScale;
+  }
+
+  doOverlap(coor: any) {
+
+    if (this.rectList.length === 0) return false;
+
+    let overlap = true;
+    this.rectList.every( (item: any) => {
+       
+       // if rectangle has area 0, no overlap
+       if (coor.tl.x == coor.br.x || coor.tl.y == coor.br.y || item.tl.x == item.br.x || item.tl.y == item.br.y) {
+        overlap =  false;
+        return true;
+       }
+       // If one rectangle is on left side of other
+       if (coor.tl.x > item.br.x || item.tl.x > coor.br.x) {
+        overlap =  false;
+        return true;
+       }
+       // If one rectangle is above other (inverted for this app)
+       if (coor.br.y < item.tl.y || item.br.y < coor.tl.y) {
+        overlap =  false;
+        return true;
+       }
+       console.log("overlap detected!");
+       overlap = true;
+       return false;
+    });
+
+    return overlap;
+  }
+
   getPhoto(word: any) {
     this.httpClient.get(this.unsplashEndpoint + '&query=' + word).toPromise().then((photo: any) => {
       // console.log(photo)
@@ -167,15 +210,39 @@ export class AppComponent {
       var heightMax = (collageDivHeight || 0) - (400 * (photo.height/photo.width));
       var widthMax = (collageDivWidth || 0) - 400;
 
-      photo.top = Math.floor( Math.random() * (heightMax || 0) )
-      photo.left = Math.floor( Math.random() * (widthMax || 0) )
+      let top = Math.floor( Math.random() * (heightMax || 0) )
+      let left = Math.floor( Math.random() * (widthMax || 0) )
+      let coor: any;
 
-      this.collage.push(photo)
+      let img = new Image();
+      img.onload = () => {
 
-      // this.loadingStack.pop()
+        img.width = img.width * this.photoScale;
+        img.height = img.height * this.photoScale;
+
+        for (let i = 0; i < 75; i++) {
+          coor = {
+            tl: {x: left, y: top},
+            br: {x: left + img.width, y: top + img.height}
+          }
+  
+          if (this.doOverlap(coor) === false) break;
+          
+          top = Math.floor( Math.random() * (heightMax || 0) )
+          left = Math.floor( Math.random() * (widthMax || 0) )
+        }
+
+        this.rectList.push(coor); 
+        photo.top = top;
+        photo.left = left;
+        this.collage.push(photo);
+      }
+      img.src = photo.urls.small;
+
+      this.loadingStack.pop()
       this.loadingStack = []
       console.log(this.loadingStack)
-      // console.log('stop loader');
+      console.log('stop loader');
     }).catch((error) => {
       console.log(error)
       this.loadingStack.pop()
@@ -202,6 +269,7 @@ export class AppComponent {
     this.client.leave(true)
     this.stream = null
     this.collage = []
+    this.rectList = []
     this.matSnackBar.dismiss()
   }  
 }
