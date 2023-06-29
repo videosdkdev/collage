@@ -200,30 +200,33 @@ export class AppComponent {
 
   getPhoto(word: any) {
     this.httpClient.get(this.unsplashEndpoint + '&query=' + word).toPromise().then((photo: any) => {
-      // console.log(photo)
+      console.log(photo)
 
       var collageDiv = document.getElementById('collage')
 
       var collageDivHeight = collageDiv?.clientHeight
       var collageDivWidth = collageDiv?.clientWidth
 
-      var heightMax = (collageDivHeight || 0) - (400 * (photo.height/photo.width));
-      var widthMax = (collageDivWidth || 0) - 400;
+      var samllImageWidth = 400
+      var smallImageHeight = (samllImageWidth * (photo.height/photo.width))
+
+      var heightMax = (collageDivHeight || 0) - smallImageHeight;
+      var widthMax = (collageDivWidth || 0) - samllImageWidth;
 
       let top = Math.floor( Math.random() * (heightMax || 0) )
       let left = Math.floor( Math.random() * (widthMax || 0) )
       let coor: any;
 
-      let img = new Image();
-      img.onload = () => {
+      // let img = new Image();
+      // img.onload = () => {
 
-        img.width = img.width * this.photoScale;
-        img.height = img.height * this.photoScale;
+      //   img.width = img.width * this.photoScale;
+      //   img.height = img.height * this.photoScale;
 
         for (let i = 0; i < 75; i++) {
           coor = {
             tl: {x: left, y: top},
-            br: {x: left + img.width, y: top + img.height}
+            br: {x: left + samllImageWidth, y: top + smallImageHeight}
           }
   
           if (this.doOverlap(coor) === false) break;
@@ -232,12 +235,15 @@ export class AppComponent {
           left = Math.floor( Math.random() * (widthMax || 0) )
         }
 
+        
+
         this.rectList.push(coor); 
         photo.top = top;
         photo.left = left;
         this.collage.push(photo);
-      }
-      img.src = photo.urls.small;
+      // }
+      // console.log('onload')
+      // img.src = photo.urls.small;
 
       this.loadingStack.pop()
       this.loadingStack = []
