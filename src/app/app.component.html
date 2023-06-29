@@ -26,12 +26,8 @@
   <button mat-raised-button color="primary" *ngIf="stream && client.getCurrentUserInfo().audio" (click)="disableTranscription()">Disable Transcription</button>
 
   <button mat-raised-button color="primary" (click)="save()" *ngIf="stream" [disabled]="!collage.length">Save</button>
-  <!-- <button>Share?</button> -->
   <button mat-raised-button color="warn" (click)="leaveSession()">Reset</button>
 </div>
-
-<!-- show words? -->
-<!-- working.... listening... -->
 
 <div class="collage" id="collage">
   <div *ngIf="stream && !loading && !collage.length && !loadingStack.length" class="instructions">
@@ -42,7 +38,7 @@
   <img src="assets/background-image.png" alt="" class="background-image" *ngIf="!stream && !loading">
   <mat-spinner *ngIf="loading || loadingStack.length"></mat-spinner>
   <div *ngFor="let photo of collage" [ngStyle]="{'top': + photo.top + 'px', 'left': + photo.left + 'px'}" class="photos">
-    <p>Photo by <a href="{{ photo.user.links.html }}?utm_source=zoom_ai_hackathon&utm_medium=referral" target="_blank">{{ photo.user.first_name }} {{ photo.user.last_name }}</a> on <a href="https://unsplash.com?utm_source=zoom_ai_hackathon&utm_medium=referral" target="_blank">Unsplash</a></p>
+    <!-- <p>Photo by <a href="{{ photo.user.links.html }}?utm_source=zoom_ai_hackathon&utm_medium=referral" target="_blank">{{ photo.user.first_name }} {{ photo.user.last_name }}</a> on <a href="https://unsplash.com?utm_source=zoom_ai_hackathon&utm_medium=referral" target="_blank">Unsplash</a></p> -->
     <img src="{{ photo.urls.small }}" alt="{{ photo.description }}" (load)='resizeImg($event)'>
   </div>
 </div>

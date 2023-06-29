@@ -60,14 +60,6 @@ export class AppComponent {
   }
 
   joinSession(videoSDKJWT: any) {
-    // join
-    // enable LTT
-    // take complete sentance / word and search.
-    // option for other language?
-    // button to stop LTT
-    // button to save as photo
-    // button to upload as virutal background?
-
     this.client.join(this.sessionName, videoSDKJWT, this.userName, this.sessionPasscode).then((data: any) => {
 
       this.stream = this.client.getMediaStream()
@@ -113,40 +105,24 @@ export class AppComponent {
     if (this.collage.length >= 13) {
       console.log("Photo limit reached")
       this.disableTranscription();
+
+      this.matSnackBar.open('Collage full, remember to hit save!', '', {
+        duration: 5000,
+      })
+
       return;
     }
 
-    // could do a loading on the image until done is passed
-    // console.log('loader');
-    // console.log(payload)
-    // on fast mode, limit based on comma or period?
-    // need to make a loader stack
-    // stop listening?
     this.loadingStack.push('a')
     this.matSnackBar.open(payload.text)
     if (this.speechMode === 'fast' && !payload.done) {
-      // console.log(payload)
-      // console.log(`${payload.displayName} said: ${payload.text}`);
-      // this.loadingStack.push('a')
-      // take out the last word
-      // console.log('last word only', payload.text.split(" ").pop())
       this.getPhoto(payload.text.split(" ").pop())
-      
-      // this.getPhoto(payload.text)
-      // this.matSnackBar.open(payload.text)
     } else if(this.speechMode === 'accurate' && payload.done) {
-      // console.log(payload)
-      // console.log(`${payload.displayName} said: ${payload.text}`);
-      // this.loadingStack.push('a')
       this.matSnackBar.open('Sentance confirmed: ' + payload.text)
       this.getPhoto(payload.text)
-      // this.loadingStack = []
-
-      // to make it look more accurate, always show caption?
     } else if(payload.done) {
       this.loadingStack = []
     }
-    //console.log(this.loadingStack)
   }
 
   disableTranscription() {
@@ -217,33 +193,22 @@ export class AppComponent {
       let left = Math.floor( Math.random() * (widthMax || 0) )
       let coor: any;
 
-      // let img = new Image();
-      // img.onload = () => {
-
-      //   img.width = img.width * this.photoScale;
-      //   img.height = img.height * this.photoScale;
-
-        for (let i = 0; i < 75; i++) {
-          coor = {
-            tl: {x: left, y: top},
-            br: {x: left + samllImageWidth, y: top + smallImageHeight}
-          }
-  
-          if (this.doOverlap(coor) === false) break;
-          
-          top = Math.floor( Math.random() * (heightMax || 0) )
-          left = Math.floor( Math.random() * (widthMax || 0) )
+      for (let i = 0; i < 75; i++) {
+        coor = {
+          tl: {x: left, y: top},
+          br: {x: left + samllImageWidth, y: top + smallImageHeight}
         }
 
+        if (this.doOverlap(coor) === false) break;
         
+        top = Math.floor( Math.random() * (heightMax || 0) )
+        left = Math.floor( Math.random() * (widthMax || 0) )
+      }
 
-        this.rectList.push(coor); 
-        photo.top = top;
-        photo.left = left;
-        this.collage.push(photo);
-      // }
-      // console.log('onload')
-      // img.src = photo.urls.small;
+      this.rectList.push(coor); 
+      photo.top = top;
+      photo.left = left;
+      this.collage.push(photo);
 
       this.loadingStack.pop()
       this.loadingStack = []
@@ -270,7 +235,6 @@ export class AppComponent {
   }
 
   leaveSession() {
-    // this.stream.stopAudio() this happens auto magically I think
     this.client.off(`caption-message`, this.wordSpoken)
     this.client.leave(true)
     this.stream = null
