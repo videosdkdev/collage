@@ -103,7 +103,6 @@ export class AppComponent {
   wordSpoken = (payload: any) => {
 
     if (this.collage.length >= 13) {
-      console.log("Photo limit reached")
       this.disableTranscription();
 
       this.matSnackBar.open('Collage full, remember to hit save!', '', {
@@ -112,7 +111,6 @@ export class AppComponent {
 
       return;
     }
-
     this.loadingStack.push('a')
     this.matSnackBar.open(payload.text)
     if (this.speechMode === 'fast' && !payload.done) {
@@ -140,7 +138,6 @@ export class AppComponent {
   }
 
   resizeImg(img: any) {
-    //for some reason, img.target.height auto scales when the img.target.width is scaled below
     img.target.width = img.target.width * this.photoScale;
   }
 
@@ -183,11 +180,11 @@ export class AppComponent {
       var collageDivHeight = collageDiv?.clientHeight
       var collageDivWidth = collageDiv?.clientWidth
 
-      var samllImageWidth = 400
-      var smallImageHeight = (samllImageWidth * (photo.height/photo.width))
+      var smallImageWidth = 400
+      var smallImageHeight = (smallImageWidth * (photo.height/photo.width))
 
       var heightMax = (collageDivHeight || 0) - smallImageHeight;
-      var widthMax = (collageDivWidth || 0) - samllImageWidth;
+      var widthMax = (collageDivWidth || 0) - smallImageWidth;
 
       let top = Math.floor( Math.random() * (heightMax || 0) )
       let left = Math.floor( Math.random() * (widthMax || 0) )
@@ -196,7 +193,7 @@ export class AppComponent {
       for (let i = 0; i < 75; i++) {
         coor = {
           tl: {x: left, y: top},
-          br: {x: left + samllImageWidth, y: top + smallImageHeight}
+          br: {x: left + smallImageWidth, y: top + smallImageHeight}
         }
 
         if (this.doOverlap(coor) === false) break;
