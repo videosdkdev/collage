@@ -127,6 +127,7 @@ export class AppComponent {
     this.stream.stopAudio()
     this.client.off(`caption-message`, this.wordSpoken)
     this.matSnackBar.dismiss()
+    this.loadingStack = []
   }
 
   onLanguageChange(language: any) {
@@ -237,6 +238,7 @@ export class AppComponent {
     this.stream = null
     this.collage = []
     this.rectList = []
+    this.loadingStack = []
     this.matSnackBar.dismiss()
   }  
 }
