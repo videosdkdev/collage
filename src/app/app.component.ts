@@ -193,7 +193,7 @@ export class AppComponent {
       for (let i = 0; i < 75; i++) {
         coor = {
           tl: {x: left, y: top},
-          br: {x: left + smallImageWidth, y: top + smallImageHeight}
+          br: {x: left + (smallImageWidth * this.photoScale), y: top + (smallImageHeight *this.photoScale)}
         }
 
         if (this.doOverlap(coor) === false) break;
