@@ -32,7 +32,7 @@
 <div class="collage" id="collage">
   <div *ngIf="stream && !loading && !collage.length && !loadingStack.length" class="instructions">
     <h1>~ Enable Transcription and speak to create your collage ~</h1>
-    <h4>Hint: Choose the AI Mode "Fast" for single words and "Accurate" for sentances.</h4>
+    <h4>Hint: Choose the AI Mode "Fast" for single words and "Accurate" for sentences.</h4>
   </div>
   <button mat-raised-button color="accent" (click)="getVideoSDKJWT()" *ngIf="!stream && !loading" class="create-collage">Create Collage</button>
   <img src="assets/background-image.png" alt="" class="background-image" *ngIf="!stream && !loading">

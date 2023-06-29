@@ -1,27 +1,55 @@
-# Hackathon
+# AI Photo Collage Generator
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.0.1.
+Powered by [Zoom Video SDK](https://developers.zoom.us/docs/video-sdk/)'s AI [Live Transcription feature](https://developers.zoom.us/docs/video-sdk/web/transcription-translation/).
 
-## Development server
+Created by [Tommy Gaessler](https://www.linkedin.com/in/tommygaessler/) and [Ticorrian Heard](https://www.linkedin.com/in/ticorrianlheard/).
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+![AI Photo Collage Generator](/src/assets/ai-photo-collage-generator.png)
 
-## Code scaffolding
+## Deployed site
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+For the deployed site, visit https://videosdk.dev
 
-## Build
+### Usage
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+1. Click "Create Collage"
 
-## Running unit tests
+1. Choose the language you want to speak in.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+1. Choose the AI Mode, "Fast" for speed, best for single words, "Accurate" for accuracy, best for sentences.
 
-## Running end-to-end tests
+1. Click "Enable Transcription".
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+1. Start speaking your collage to life!
 
-## Further help
+1. When you're ready to save your collage, click "Save".
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+1. To reset the collage, click "Reset".
+
+## Local Setup
+
+### Installation
+
+To get started, clone the repo:
+
+`$ git clone https://git.zoom.us/tommygaessler/ai-photo-collage-creator.git`
+
+> To setup and run the app you will need the [Angular CLI](https://cli.angular.io/).
+
+### Setup
+
+1. Once cloned, navigate to the `ai-photo-collage-creator` directory:
+
+   $ cd `ai-photo-collage-creator`
+
+1. Then install the dependencies:
+
+   $ npm install
+
+1. Open the `ai-photo-collage-creator` directory in your code editor.
+
+1. Run the app:
+
+   `$ ng serve --open`
+
+1. See [usage steps](#usage) above.
