@@ -113,9 +113,9 @@ export class AppComponent {
     }
     this.loadingStack.push('a')
     this.matSnackBar.open(payload.text)
-    if (this.speechMode === 'fast' && !payload.done) {
+    if (this.speechMode === 'fast' && !payload.done && payload.language === 0) {
       this.getPhoto(payload.text.split(" ").pop())
-    } else if(this.speechMode === 'accurate' && payload.done) {
+    } else if(this.speechMode === 'accurate' && payload.done && payload.language === 0) {
       this.matSnackBar.open('Sentance confirmed: ' + payload.text)
       this.getPhoto(payload.text)
     } else if(payload.done) {
