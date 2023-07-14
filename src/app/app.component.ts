@@ -101,6 +101,7 @@ export class AppComponent {
   }
 
   wordSpoken = (payload: any) => {
+    console.log(payload)
 
     if (this.collage.length >= 13) {
       this.disableTranscription();
@@ -113,9 +114,9 @@ export class AppComponent {
     }
     this.loadingStack.push('a')
     this.matSnackBar.open(payload.text)
-    if (this.speechMode === 'fast' && !payload.done && payload.language === 0) {
+    if (this.speechMode === 'fast' && !payload.done && (payload.language === 0 || payload.language === 400)) {
       this.getPhoto(payload.text.split(" ").pop())
-    } else if(this.speechMode === 'accurate' && payload.done && payload.language === 0) {
+    } else if(this.speechMode === 'accurate' && payload.done && (payload.language === 0 || payload.language === 400)) {
       this.matSnackBar.open('Sentance confirmed: ' + payload.text)
       this.getPhoto(payload.text)
     } else if(payload.done) {
