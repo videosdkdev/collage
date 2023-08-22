@@ -8,7 +8,7 @@
   <mat-form-field appearance="outline">
     <mat-label>Language</mat-label>
     <mat-select [disabled]="!!client.getCurrentUserInfo().audio" value="en" (selectionChange)="onLanguageChange($event)">
-      <mat-option [value]="language.code" *ngFor="let language of languages">
+      <mat-option [value]="language.code" *ngFor="let language of supportedLanguages">
         {{ language.name }}
       </mat-option>
     </mat-select>

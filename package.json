@@ -20,7 +20,7 @@
     "@angular/platform-browser": "^15.0.0",
     "@angular/platform-browser-dynamic": "^15.0.0",
     "@angular/router": "^15.0.0",
-    "@zoom/videosdk": "^1.8.0",
+    "@zoom/videosdk": "^1.8.7",
     "file-saver": "^2.0.5",
     "html2canvas": "^1.4.1",
     "rxjs": "~7.5.0",

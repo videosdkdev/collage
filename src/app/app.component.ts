@@ -28,6 +28,7 @@ export class AppComponent {
   speechMode = 'fast'
   speakingLanguage = 'en'
   languages = Object.keys(LiveTranscriptionLanguage).map(key => ({name: key, code: (LiveTranscriptionLanguage as any)[key]})).sort((a, b) => a.name.localeCompare(b.name))
+  supportedLanguages: any[] = []
   loading: boolean = false
   photoScale = 0.75;
   collage: any = []
@@ -65,6 +66,16 @@ export class AppComponent {
       this.stream = this.client.getMediaStream()
       this.loading = false
 
+      this.liveTranscriptionTranslation = this.client.getLiveTranscriptionClient()
+
+      this.languages.forEach((language: any) => {
+        this.liveTranscriptionTranslation.getLiveTranscriptionStatus().translationLanguage.forEach((translationLanguage: any) => {
+          if(language.code.toLowerCase() === translationLanguage.speakingLanguage.toLowerCase()) {
+            this.supportedLanguages.push(language)
+          }
+        })
+      })
+
     }).catch((error: any) => {
       console.log(error)
       this.loading = false
@@ -73,8 +84,6 @@ export class AppComponent {
 
   enableTranscription() {
     this.stream.startAudio()
-
-    this.liveTranscriptionTranslation = this.client.getLiveTranscriptionClient()
 
     this.liveTranscriptionTranslation.startLiveTranscription().then((data: any) => {
 
@@ -101,7 +110,6 @@ export class AppComponent {
   }
 
   wordSpoken = (payload: any) => {
-    console.log(payload)
 
     if (this.collage.length >= 13) {
       this.disableTranscription();
@@ -165,7 +173,6 @@ export class AppComponent {
         overlap =  false;
         return true;
        }
-       console.log("overlap detected!");
        overlap = true;
        return false;
     });
@@ -175,7 +182,6 @@ export class AppComponent {
 
   getPhoto(word: any) {
     this.httpClient.get(this.unsplashEndpoint + '&query=' + word).toPromise().then((photo: any) => {
-      console.log(photo)
 
       var collageDiv = document.getElementById('collage')
 
@@ -211,8 +217,6 @@ export class AppComponent {
 
       this.loadingStack.pop()
       this.loadingStack = []
-      console.log(this.loadingStack)
-      console.log('stop loader');
     }).catch((error) => {
       console.log(error)
       this.loadingStack.pop()
@@ -241,5 +245,7 @@ export class AppComponent {
     this.rectList = []
     this.loadingStack = []
     this.matSnackBar.dismiss()
+    this.speakingLanguage = 'en'
+    this.speechMode = 'fast'
   }  
 }
